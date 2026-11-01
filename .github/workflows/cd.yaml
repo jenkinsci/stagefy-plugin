@@ -1,4 +1,5 @@
 ---
+# Continuous delivery: https://www.jenkins.io/doc/developer/publishing/releasing-cd/
 name: cd
 on:
   workflow_dispatch:
