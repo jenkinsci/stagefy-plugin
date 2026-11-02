@@ -2,6 +2,8 @@
 
 [한국어](README.ko.md)
 
+> Contributions are welcome — see the [Contributing guide](CONTRIBUTING.md).
+
 Stagefy lets you define pipeline **stages** in YAML and reuse them across pipelines. It adds a global `stagefy` variable that you call from a Jenkinsfile, so stage definitions live in plain YAML files and are shared through `use`, `template` and `iterated` directives.
 
 Because the stage logic ships inside the plugin, Jenkinsfiles only call `stagefy.run(...)`; no custom shared-library code needs Script Security approval.
@@ -155,6 +157,7 @@ The built plugin is `target/stagefy.hpi`.
 - [Installation guide](install.md)
 - [Deployment guide](deploy.md)
 - [Editor validation (JSON Schema)](#editor-validation)
+- [Contributing guide](CONTRIBUTING.md)
 - [Changelog](CHANGELOG.md)
 
 ## Contributing
