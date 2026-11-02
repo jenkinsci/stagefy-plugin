@@ -28,6 +28,7 @@ Notable changes to this project. Versions are published through the CD workflow;
 ### Changed
 - Each YAML file is parsed once per build and cached. Do not modify a YAML file after it has been read; the change is not picked up.
 - Stage ENTER/EXIT messages are written to the build console.
+- Internal: template/iterated entry resolution is shared by `stages`, `parallels` and `steps` stages instead of being duplicated (no behavior change).
 
 ## Earlier
 - Initial plugin: migrated from the shared-library implementation, with Jenkins hosting, CD and security-scan setup.

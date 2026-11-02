@@ -271,4 +271,77 @@ class StagefyDslTest {
         j.assertBuildStatusSuccess(run);
         assertLog(run, "ran-build");
     }
+
+    private static final String TARGET_TEMPLATE =
+            "tpl:\n  template:\n    arguments: [target]\n  steps:\n    - sh: \"echo target-{target}\"\n";
+
+    @Test
+    void parallelTemplateEntrySubstitutesArguments() throws Exception {
+        String yaml = TARGET_TEMPLATE + "all:\n  parallels:\n    - template: tpl\n      target: p1\n";
+        WorkflowRun run = run(yaml, "all");
+        j.assertBuildStatusSuccess(run);
+        assertLog(run, "target-p1");
+        assertLog(run, "(tpl)");
+    }
+
+    @Test
+    void sequentialTemplateEntrySubstitutesArguments() throws Exception {
+        String yaml = TARGET_TEMPLATE + "all:\n  stages:\n    - template: tpl\n      target: s1\n";
+        WorkflowRun run = run(yaml, "all");
+        j.assertBuildStatusSuccess(run);
+        assertLog(run, "target-s1");
+        assertLog(run, "(tpl)");
+    }
+
+    @Test
+    void sameTemplateUsedTwiceGetsDistinctStageNames() throws Exception {
+        String yaml = TARGET_TEMPLATE
+                + "all:\n  stages:\n    - template: tpl\n      target: x\n    - template: tpl\n      target: y\n";
+        WorkflowRun run = run(yaml, "all");
+        j.assertBuildStatusSuccess(run);
+        assertLog(run, "(tpl)");
+        assertLog(run, "(tpl_y)");
+        assertLog(run, "target-x");
+        assertLog(run, "target-y");
+    }
+
+    @Test
+    void duplicateStageNameInStagesFails() throws Exception {
+        String yaml = "one:\n  steps:\n    - sh: \"echo hi\"\nall:\n  stages:\n    - one\n    - one\n";
+        WorkflowRun run = run(yaml, "all");
+        j.assertBuildStatus(Result.FAILURE, run);
+        assertLog(run, "Duplicate stage name 'one' in stages block of 'all'");
+    }
+
+    @Test
+    void duplicateStageNameInParallelsFails() throws Exception {
+        String yaml = TARGET_TEMPLATE + "tpl_a:\n  steps:\n    - sh: \"echo hi\"\n"
+                + "all:\n  parallels:\n    - iterated:\n        template: tpl\n        over: [a]\n    - tpl_a\n";
+        WorkflowRun run = run(yaml, "all");
+        j.assertBuildStatus(Result.FAILURE, run);
+        assertLog(run, "Duplicate stage name 'tpl_a' in parallels block of 'all'");
+    }
+
+    @Test
+    void iteratedEntryInsideStepsStageExpandsInline() throws Exception {
+        String yaml = TARGET_TEMPLATE
+                + "all:\n  steps:\n    - iterated:\n        template: tpl\n        over: [a, b]\n";
+        WorkflowRun run = run(yaml, "all");
+        j.assertBuildStatusSuccess(run);
+        assertLog(run, "target-a");
+        assertLog(run, "target-b");
+    }
+
+    @Test
+    void iteratedMapItemsUseNameKeyAndBindKeys() throws Exception {
+        String yaml = "tpl:\n  template:\n    arguments: [target, mode]\n  steps:\n    - sh: \"echo {target}-{mode}\"\n"
+                + "all:\n  stages:\n    - iterated:\n        template: tpl\n        over:\n"
+                + "          - {target: web, mode: fast, _name: first}\n          - {target: api, mode: slow}\n";
+        WorkflowRun run = run(yaml, "all");
+        j.assertBuildStatusSuccess(run);
+        assertLog(run, "web-fast");
+        assertLog(run, "api-slow");
+        assertLog(run, "(tpl_first)");
+        assertLog(run, "(tpl_1)");
+    }
 }
