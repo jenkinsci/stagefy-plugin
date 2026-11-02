@@ -28,6 +28,7 @@
 ### Changed
 - 각 YAML 파일은 빌드당 한 번만 파싱되어 캐시된다. 이미 읽은 YAML 파일은 수정하지 않는다. 수정 내용이 반영되지 않는다.
 - 스테이지 ENTER/EXIT 메시지를 빌드 콘솔에 출력한다.
+- 내부: template/iterated 항목 해석을 `stages`, `parallels`, `steps` 스테이지가 중복 없이 공유한다 (동작 변경 없음).
 
 ## Earlier
 - 최초 플러그인: 공유 라이브러리 구현에서 이전했으며, Jenkins 호스팅, CD, 보안 스캔 설정을 포함한다.
