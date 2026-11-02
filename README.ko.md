@@ -2,6 +2,8 @@
 
 [English](README.md)
 
+> 기여를 환영한다. [기여 가이드](CONTRIBUTING.ko.md)를 참조.
+
 YAML 기반 파이프라인 스테이지 로더를 Jenkins 플러그인(hpi)으로 패키징한 것. `stagefy` 글로벌 변수를 제공하여 Jenkinsfile에서 바로 사용할 수 있다.
 
 ## pipeline-as-yaml과의 관계
@@ -177,6 +179,7 @@ make docker-run     # localhost:8080 에서 Jenkins 실행
 
 - [설치 가이드](install.ko.md)
 - [배포 가이드](deploy.ko.md)
+- [기여 가이드](CONTRIBUTING.ko.md)
 - [변경 이력](CHANGELOG.ko.md)
 
 ## 기여
