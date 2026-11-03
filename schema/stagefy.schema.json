@@ -4,6 +4,13 @@
   "title": "Stagefy stage YAML",
   "description": "Top-level map of stage name to stage definition, as loaded by stagefy.run(file, stage).",
   "type": "object",
+  "properties": {
+    "env": {
+      "description": "Reserved key: environment variables exported by stagefy.setenv(file) and the setEnvFromFile step; not a stage.",
+      "type": "object",
+      "additionalProperties": { "type": ["string", "number", "boolean"] }
+    }
+  },
   "additionalProperties": { "$ref": "#/definitions/anyStage" },
   "definitions": {
     "anyStage": {

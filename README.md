@@ -40,6 +40,18 @@ build:
 
 `stagefy.run(file, stage)` reads the YAML file from the workspace and runs the named stage inside a `stage(...)` block. In declarative pipelines the equivalent `stagefy file: 'Jenkins.yml', stage: 'build'` works directly in `steps {}` without a `script {}` block.
 
+`stagefy.setenv(file)` exports the top-level `env:` map of a YAML file to the build environment (`env` is a reserved key, not a stage). The variables stay set for the rest of the build.
+
+```yaml
+# Jenkins.yml
+env:
+  REGISTRY: registry.example.com
+```
+
+```groovy
+script { stagefy.setenv('Jenkins.yml') }
+```
+
 ## YAML reference
 
 A stage is a top-level key in the YAML file. Its kind is decided by one of these keys:
