@@ -84,6 +84,18 @@ build:
 
 `stagefy.run(file, stage)`는 워크스페이스의 YAML 파일을 읽어 지정한 스테이지를 `stage(...)` 블록으로 감싸 실행한다. 선언형 파이프라인에서는 `script {}` 블록 없이 `steps {}`에서 `stagefy file: 'Jenkins.yml', stage: 'build'`로 바로 호출할 수도 있다.
 
+`stagefy.setenv(file)`은 YAML 파일 최상위 `env:` 맵을 빌드 환경으로 내보낸다(`env`는 스테이지가 아닌 예약 키). 설정된 변수는 이후 빌드 끝까지 유지된다.
+
+```yaml
+# Jenkins.yml
+env:
+  REGISTRY: registry.example.com
+```
+
+```groovy
+script { stagefy.setenv('Jenkins.yml') }
+```
+
 ## YAML reference
 
 스테이지는 YAML 파일의 최상위 키이다. 스테이지의 종류는 다음 키 중 하나로 결정된다.

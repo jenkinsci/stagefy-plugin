@@ -344,4 +344,27 @@ class StagefyDslTest {
         assertLog(run, "(tpl_first)");
         assertLog(run, "(tpl_1)");
     }
+
+    @Test
+    void setenvExportsTopLevelEnvToBuild() throws Exception {
+        WorkflowJob job = j.createProject(WorkflowJob.class);
+        job.setDefinition(new CpsFlowDefinition(
+                "node {\nwriteFile file: 'Jenkins.yml', text: '''env:\n  FOO: bar\n  COUNT: 3\n'''\n"
+                        + "stagefy.setenv('Jenkins.yml')\n"
+                        + "sh 'echo foo=$FOO count=$COUNT'\n}",
+                true));
+        WorkflowRun run = job.scheduleBuild2(0).get();
+        j.assertBuildStatusSuccess(run);
+        assertLog(run, "foo=bar count=3");
+    }
+
+    @Test
+    void setenvWithoutEnvKeyIsNoop() throws Exception {
+        WorkflowJob job = j.createProject(WorkflowJob.class);
+        job.setDefinition(new CpsFlowDefinition(
+                "node {\nwriteFile file: 'Jenkins.yml', text: '''build:\n  steps:\n    - sh: \"true\"\n'''\n"
+                        + "stagefy.setenv('Jenkins.yml')\n}",
+                true));
+        j.assertBuildStatusSuccess(job.scheduleBuild2(0).get());
+    }
 }

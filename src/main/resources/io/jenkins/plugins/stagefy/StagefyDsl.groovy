@@ -20,6 +20,11 @@ class StagefyDsl implements Serializable {
         }
     }
 
+    /** Exports the top-level {@code env:} map of YAML {@code file} to the build environment for the rest of the build. */
+    def setenv(String file) {
+        new DslJenkinsContext(script).setEnvFromFile(file)
+    }
+
     /** Step-style entry point: {@code stagefy file: 'Jenkins.yml', stage: 'build'} (no {@code script} block needed). */
     def call(Map args) {
         if (!args.file || !args.stage) {
