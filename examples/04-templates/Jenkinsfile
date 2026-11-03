@@ -1,0 +1,12 @@
+// Expand a parameterised template as stages.
+pipeline {
+    agent any
+    stages {
+        stage('Pipeline') {
+            steps {
+                checkout scm
+                stagefy file: 'examples/04-templates/Jenkins.yml', stage: 'release'
+            }
+        }
+    }
+}

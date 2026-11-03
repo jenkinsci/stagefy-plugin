@@ -156,6 +156,7 @@ The built plugin is `target/stagefy.hpi`.
 
 - [Installation guide](install.md)
 - [Deployment guide](deploy.md)
+- [Examples](examples/README.md)
 - [Editor validation (JSON Schema)](#editor-validation)
 - [Contributing guide](CONTRIBUTING.md)
 - [Changelog](CHANGELOG.md)

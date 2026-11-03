@@ -1,0 +1,15 @@
+// Expand one template per item: fixed lists, maps, and an environment variable.
+pipeline {
+    agent any
+    environment {
+        REGIONS = 'seoul,tokyo'
+    }
+    stages {
+        stage('Pipeline') {
+            steps {
+                checkout scm
+                stagefy file: 'examples/05-iterated/Jenkins.yml', stage: 'release'
+            }
+        }
+    }
+}

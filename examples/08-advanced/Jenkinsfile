@@ -1,0 +1,13 @@
+// WARNING: `script` and `evaluate` run arbitrary Groovy outside the Script
+// Security sandbox. Only use YAML files and scripts from trusted sources.
+pipeline {
+    agent any
+    stages {
+        stage('Pipeline') {
+            steps {
+                checkout scm
+                stagefy file: 'examples/08-advanced/Jenkins.yml', stage: 'custom'
+            }
+        }
+    }
+}

@@ -1,0 +1,12 @@
+// Run a composed stage: `all` runs build sequentially, then test jobs in parallel.
+pipeline {
+    agent any
+    stages {
+        stage('Pipeline') {
+            steps {
+                checkout scm
+                stagefy file: 'examples/02-composition/Jenkins.yml', stage: 'all'
+            }
+        }
+    }
+}

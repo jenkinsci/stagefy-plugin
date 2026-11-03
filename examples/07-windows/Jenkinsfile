@@ -1,0 +1,12 @@
+// Run Windows commands on a Windows agent.
+pipeline {
+    agent { label 'windows' }
+    stages {
+        stage('Build') {
+            steps {
+                checkout scm
+                stagefy file: 'examples/07-windows/Jenkins.yml', stage: 'build'
+            }
+        }
+    }
+}

@@ -1,0 +1,13 @@
+// Run a single `steps` stage defined in Jenkins.yml.
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                checkout scm
+                // Equivalent to: script { stagefy.run('examples/01-basic/Jenkins.yml', 'build') }
+                stagefy file: 'examples/01-basic/Jenkins.yml', stage: 'build'
+            }
+        }
+    }
+}
