@@ -1,0 +1,12 @@
+// Reuse stages that live in a shared YAML file.
+pipeline {
+    agent any
+    stages {
+        stage('Pipeline') {
+            steps {
+                checkout scm
+                stagefy file: 'examples/03-reuse/Jenkins.yml', stage: 'ci'
+            }
+        }
+    }
+}

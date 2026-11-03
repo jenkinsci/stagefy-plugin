@@ -18,6 +18,7 @@
 - `bat`, `powershell`, `pwsh` 스텝 지시어를 추가했다. `${env.VAR}`는 `%VAR%` / `$env:VAR`로 전달된다.
 - `script {}` 없이 선언형 `steps {}`에서 쓸 수 있는 `stagefy file: ..., stage: ...` 호출을 추가했다.
 - 스테이지 YAML용 JSON Schema(`schema/stagefy.schema.json`)와 README의 *Editor validation* 섹션을 추가했다.
+- `examples/`에 실행 가능한 예제 8개(basic, composition, reuse, templates, iterated, conditional, windows, advanced)와 인덱스를 추가했다. `examples/Jenkinsfile.demo`와 루트 `test-pipeline.yml`을 대체한다.
 
 ### Fixed
 - 스테이지 진입/종료가 더 이상 Jenkins 시스템 로그에 기록되지 않고 빌드 콘솔에만 출력된다.

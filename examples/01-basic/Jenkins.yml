@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/jenkinsci/stagefy-plugin/main/schema/stagefy.schema.json
+
+# A `steps` stage runs its steps in order.
+build:
+  steps:
+    - sh: "echo 'Hello from Stagefy'"
+    - sh: "echo 'Build number is ${env.BUILD_NUMBER}'"   # substituted from the build environment
+
+# `env` sets environment variables for this stage. Add `node: <label>` to run it
+# on a specific agent label.
+package:
+  env:
+    APP_NAME: demo
+    APP_VERSION: 1.0.0
+  steps:
+    - sh: "echo Packaging ${env.APP_NAME}-${env.APP_VERSION}"

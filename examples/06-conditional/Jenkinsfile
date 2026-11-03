@@ -1,0 +1,15 @@
+// Load settings from a YAML file and skip stages with `when`.
+pipeline {
+    agent any
+    parameters {
+        booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Run the deploy stage')
+    }
+    stages {
+        stage('Pipeline') {
+            steps {
+                checkout scm
+                stagefy file: 'examples/06-conditional/Jenkins.yml', stage: 'ci'
+            }
+        }
+    }
+}

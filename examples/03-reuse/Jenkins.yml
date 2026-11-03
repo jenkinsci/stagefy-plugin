@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/jenkinsci/stagefy-plugin/main/schema/stagefy.schema.json
+
+# "<stage> from <file>" pulls a stage defined in another file.
+ci:
+  stages:
+    - checkout from examples/03-reuse/common.yml
+    - build
+    - wrapped
+
+build:
+  steps:
+    - sh: "echo building"
+
+# `use` as a step runs a stage from another file inside this stage.
+# `makeStage: false` skips the extra stage(...) wrapper, so the shared steps
+# appear directly inside this stage.
+wrapped:
+  steps:
+    - use: notify from examples/03-reuse/common.yml
+      makeStage: false
+    - sh: "echo done"
