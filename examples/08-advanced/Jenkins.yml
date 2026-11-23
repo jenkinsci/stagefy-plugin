@@ -7,5 +7,7 @@ custom:
     # Stashes files for a later unstash (e.g. on another node).
     - sh: "echo built > artifact.txt"
     - stash: { name: artifact, includes: artifact.txt }
+    # Restores the stash by exact name (e.g. on another node).
+    - unstash: artifact
     # Evaluates a Groovy expression.
     - evaluate: "echo 'evaluated at ' + new Date()"

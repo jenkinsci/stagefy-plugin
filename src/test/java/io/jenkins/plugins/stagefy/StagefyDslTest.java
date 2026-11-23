@@ -379,6 +379,25 @@ class StagefyDslTest {
     }
 
     @Test
+    void unstashRestoresFilesIntoAnotherDirectory() throws Exception {
+        String yaml = "build:\n  steps:\n    - sh: \"echo payload-42 > out.txt\"\n"
+                + "    - stash: { name: art, includes: out.txt }\n"
+                + "    - sh: \"rm out.txt\"\n"
+                + "    - unstash: art\n"
+                + "    - sh: \"cat out.txt\"\n";
+        WorkflowRun run = run(yaml, "build");
+        j.assertBuildStatusSuccess(run);
+        assertLog(run, "payload-42");
+    }
+
+    @Test
+    void unstashRequiresNameString() throws Exception {
+        WorkflowRun run = run("build:\n  steps:\n    - unstash: ''\n", "build");
+        j.assertBuildStatus(Result.FAILURE, run);
+        assertLog(run, "unstash requires a name");
+    }
+
+    @Test
     void setenvWithoutEnvKeyIsNoop() throws Exception {
         WorkflowJob job = j.createProject(WorkflowJob.class);
         job.setDefinition(new CpsFlowDefinition(

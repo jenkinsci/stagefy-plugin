@@ -203,6 +203,11 @@
           "additionalProperties": false
         },
         {
+          "type": "object", "required": ["unstash"],
+          "properties": { "unstash": { "description": "Exact name of a stash created by the stash step.", "type": "string", "minLength": 1 } },
+          "additionalProperties": false
+        },
+        {
           "type": "object", "required": ["use"],
           "properties": {
             "use": {
