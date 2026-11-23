@@ -21,6 +21,8 @@ Notable changes to this project. Versions are published through the CD workflow;
 
 - `examples/` now has eight runnable examples (basic, composition, reuse, templates, iterated, conditional, windows, advanced) with an index; replaces `examples/Jenkinsfile.demo` and the root `test-pipeline.yml`.
 
+- `stash` step directive (`stash: name` or an options map) delegating to the pipeline `stash` step.
+
 ### Fixed
 - Stage enter/exit no longer writes to the Jenkins system log; it only prints to the build console.
 - `workflow-basic-steps` and `workflow-durable-task-step` are now compile-scope dependencies (the `sh` and `node` steps are used directly).

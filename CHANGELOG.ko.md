@@ -20,6 +20,8 @@
 - 스테이지 YAML용 JSON Schema(`schema/stagefy.schema.json`)와 README의 *Editor validation* 섹션을 추가했다.
 - `examples/`에 실행 가능한 예제 8개(basic, composition, reuse, templates, iterated, conditional, windows, advanced)와 인덱스를 추가했다. `examples/Jenkinsfile.demo`와 루트 `test-pipeline.yml`을 대체한다.
 
+- 파이프라인 `stash` 스텝에 위임하는 `stash` 스텝 지시어(`stash: name` 또는 옵션 맵)를 추가했다.
+
 ### Fixed
 - 스테이지 진입/종료가 더 이상 Jenkins 시스템 로그에 기록되지 않고 빌드 콘솔에만 출력된다.
 - `workflow-basic-steps`, `workflow-durable-task-step`을 compile 스코프 의존성으로 변경했다(`sh`, `node` 스텝을 직접 사용).

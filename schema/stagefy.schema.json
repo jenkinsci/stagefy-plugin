@@ -180,6 +180,29 @@
           "additionalProperties": false
         },
         {
+          "type": "object", "required": ["stash"],
+          "properties": {
+            "stash": {
+              "description": "Stash files for later unstash: a name, or an options map.",
+              "oneOf": [
+                { "type": "string" },
+                {
+                  "type": "object", "required": ["name"],
+                  "properties": {
+                    "name": { "type": "string" },
+                    "includes": { "type": "string" },
+                    "excludes": { "type": "string" },
+                    "allowEmpty": { "type": "boolean" },
+                    "useDefaultExcludes": { "type": "boolean" }
+                  },
+                  "additionalProperties": false
+                }
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
           "type": "object", "required": ["use"],
           "properties": {
             "use": {

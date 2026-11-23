@@ -4,5 +4,8 @@ custom:
   steps:
     # Loads the Groovy file and calls its main().
     - script: examples/08-advanced/hello.groovy
+    # Stashes files for a later unstash (e.g. on another node).
+    - sh: "echo built > artifact.txt"
+    - stash: { name: artifact, includes: artifact.txt }
     # Evaluates a Groovy expression.
     - evaluate: "echo 'evaluated at ' + new Date()"
