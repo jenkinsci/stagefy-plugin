@@ -119,6 +119,7 @@ script { stagefy.setenv('Jenkins.yml') }
 | `evaluate: expr` | Groovy 표현식 평가 |
 | `setEnvFromFile: file` | YAML 파일의 `env:` 맵을 빌드 환경으로 읽어 들임 |
 | `stash: name` 또는 `stash: { name, includes, excludes, allowEmpty, useDefaultExcludes }` | 파이프라인 `stash` 스텝으로 파일을 stash함 (`name` 필수) |
+| `unstash: name` | 정확한 이름으로 stash를 복원함 (패턴 불가). 노드 간 파일 이동에 사용 |
 | `use: Stage from file.yml` | 다른 파일에 정의된 스테이지 실행. `makeStage: false`를 추가하면 `stage(...)` 래핑을 생략 |
 | `template: name` | 템플릿 확장. 인자는 같은 레벨의 키로 전달 |
 | `iterated:` | 항목마다 템플릿을 한 번씩 확장 (아래 참조) |
@@ -164,7 +165,7 @@ release:
 |---------|-------|
 | `Stage 'X' not found in 'file'` | 스테이지 이름이 YAML 파일의 최상위 키가 아니거나, 파일이 워크스페이스에 없다 (먼저 checkout). |
 | `Stage 'X' has no 'stages', 'parallels', or 'steps' key` | 스테이지에 세 가지 본문 키가 하나도 없다. |
-| `Unknown step directive 'x' in stage 'X'` | 스텝이 `sh`, `bat`, `powershell`, `pwsh`, `script`, `setEnvFromFile`, `stash`, `evaluate`, `use`, `template`, `iterated` 이외의 키를 사용했다. |
+| `Unknown step directive 'x' in stage 'X'` | 스텝이 `sh`, `bat`, `powershell`, `pwsh`, `script`, `setEnvFromFile`, `stash`, `unstash`, `evaluate`, `use`, `template`, `iterated` 이외의 키를 사용했다. |
 | `Template 'T' requires argument 'a' ...` | `template` 스텝이나 `iterated` 항목이 선언된 인자를 모두 제공하지 않았다. |
 | `Circular Loop Execution ...` | 스테이지가 서로를 순환 참조한다. |
 | `Template stage 'T' cannot be executed directly` | 템플릿은 `template` 또는 `iterated`를 통해서만 사용할 수 있다. |

@@ -34,6 +34,10 @@ class DslJenkinsContext implements Serializable {
         script.stash(args)
     }
 
+    def unstash(String name) {
+        script.unstash(name)
+    }
+
     def stage(String name, Closure body) {
         script.stage(name, body)
     }
