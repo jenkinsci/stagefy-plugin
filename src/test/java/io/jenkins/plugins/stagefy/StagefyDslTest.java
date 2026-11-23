@@ -379,6 +379,33 @@ class StagefyDslTest {
     }
 
     @Test
+    void nodeOnStepsStageRunsOnSeparateWorkspace() throws Exception {
+        WorkflowRun run = run("build:\n  node: built-in\n  steps:\n    - sh: \"echo ws=$WORKSPACE\"\n", "build");
+        j.assertBuildStatusSuccess(run);
+        assertLog(run, "@2");
+    }
+
+    @Test
+    void nodeOnStagesStageSharesOneWorkspaceAmongChildren() throws Exception {
+        String yaml = "top:\n  node: built-in\n  stages:\n    - a\n    - b\n"
+                + "a:\n  steps:\n    - sh: \"echo from-a > shared.txt\"\n"
+                + "b:\n  steps:\n    - sh: \"cat shared.txt && echo ws=$WORKSPACE\"\n";
+        WorkflowRun run = run(yaml, "top");
+        j.assertBuildStatusSuccess(run);
+        assertLog(run, "from-a");
+        assertLog(run, "@2");
+    }
+
+    @Test
+    void nodeOnStagesStageIsNotAllocatedWhenWhenIsFalse() throws Exception {
+        String yaml = "top:\n  when: \"false\"\n  node: no-such-label\n  stages:\n    - a\n"
+                + "a:\n  steps:\n    - sh: \"echo should-not-run\"\n";
+        WorkflowRun run = run(yaml, "top");
+        j.assertBuildStatusSuccess(run);
+        assertFalse(JenkinsRule.getLog(run).contains("should-not-run"));
+    }
+
+    @Test
     void setenvWithoutEnvKeyIsNoop() throws Exception {
         WorkflowJob job = j.createProject(WorkflowJob.class);
         job.setDefinition(new CpsFlowDefinition(

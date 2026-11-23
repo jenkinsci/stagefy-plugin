@@ -20,6 +20,7 @@
 - 스테이지 YAML용 JSON Schema(`schema/stagefy.schema.json`)와 README의 *Editor validation* 섹션을 추가했다.
 - `examples/`에 실행 가능한 예제 8개(basic, composition, reuse, templates, iterated, conditional, windows, advanced)와 인덱스를 추가했다. `examples/Jenkinsfile.demo`와 루트 `test-pipeline.yml`을 대체한다.
 
+- `stages` 스테이지에서도 `node`를 쓸 수 있다. 모든 자식이 하나의 executor와 workspace를 공유한다 (공용 `NodeWrapper` 헬퍼).
 - 파이프라인 `stash` 스텝에 위임하는 `stash` 스텝 지시어(`stash: name` 또는 옵션 맵)를 추가했다.
 
 ### Fixed

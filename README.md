@@ -63,7 +63,7 @@ A stage is a top-level key in the YAML file. Its kind is decided by one of these
 | `parallels` | Run other stages in parallel |
 | `template` | Declares a reusable template (cannot be run directly) |
 
-`when` (Groovy expression, the stage is skipped when false) is accepted on every stage kind. Optional keys on a `steps` stage only: `env` (map of environment variables) and `node` (label to run on).
+`when` (Groovy expression, the stage is skipped when false) is accepted on every stage kind. `node` (label to run on) is accepted on `steps` and `stages` stages; on a `stages` stage all children share one executor and workspace. `env` (map of environment variables) is accepted on `steps` stages only. `parallels` has no `node`: give each child `steps` stage its own `node` to run branches on different agents. A `node` on a child nests inside the parent's (an extra executor and a fresh workspace, no de-duplication).
 
 ### Steps
 

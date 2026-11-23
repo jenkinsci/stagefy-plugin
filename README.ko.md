@@ -107,7 +107,7 @@ script { stagefy.setenv('Jenkins.yml') }
 | `parallels` | 다른 스테이지를 병렬 실행 |
 | `template` | 재사용 가능한 템플릿 선언 (직접 실행 불가) |
 
-`steps` 스테이지의 선택 키: `when` (Groovy 표현식, false이면 스테이지를 건너뜀), `env` (환경 변수 맵), `node` (실행할 노드 레이블).
+`when` (Groovy 표현식, false이면 스테이지를 건너뜀)은 모든 스테이지 종류에서 쓸 수 있습니다. `node` (실행할 노드 레이블)는 `steps`와 `stages` 스테이지에서 쓸 수 있으며, `stages`에 지정하면 모든 자식이 하나의 executor와 workspace를 공유합니다. `env` (환경 변수 맵)는 `steps` 스테이지에서만 쓸 수 있습니다. `parallels`에는 `node`가 없으며, 브랜치별 노드는 각 자식 `steps` 스테이지에 `node`를 지정하세요. 자식의 `node`는 부모 안에 중첩됩니다 (executor가 추가로 할당되고 새 workspace를 사용하며, 중복 제거는 하지 않습니다).
 
 ### Steps
 

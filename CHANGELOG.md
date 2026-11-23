@@ -21,6 +21,7 @@ Notable changes to this project. Versions are published through the CD workflow;
 
 - `examples/` now has eight runnable examples (basic, composition, reuse, templates, iterated, conditional, windows, advanced) with an index; replaces `examples/Jenkinsfile.demo` and the root `test-pipeline.yml`.
 
+- `node` is now accepted on `stages` stages; all children share one executor and workspace (shared `NodeWrapper` helper).
 - `stash` step directive (`stash: name` or an options map) delegating to the pipeline `stash` step.
 
 ### Fixed

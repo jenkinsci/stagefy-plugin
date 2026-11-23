@@ -46,7 +46,8 @@
       "required": ["stages"],
       "properties": {
         "stages": { "$ref": "#/definitions/stageRefList" },
-        "when": { "$ref": "#/definitions/when" }
+        "when": { "$ref": "#/definitions/when" },
+        "node": { "description": "Node label to run all child stages on (one executor and workspace shared by the children).", "type": "string" }
       },
       "additionalProperties": false
     },

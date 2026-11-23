@@ -1,5 +1,7 @@
 package io.jenkins.plugins.stagefy.core
 
+import io.jenkins.plugins.stagefy.util.NodeWrapper
+
 /** Stage with a YAML {@code steps} list (plus optional {@code env}, {@code node}, {@code when}); expands template/iterated entries. */
 class StepsStage extends Stage {
     StepsStage(String filename, String stagename, Stage parent, def jenkins) {
@@ -10,7 +12,7 @@ class StepsStage extends Stage {
         List resolvedSteps = resolveSteps(data)
         def content = { executeResolvedSteps(resolvedSteps) }
         content = wrapWithEnv(content, (Map) data.get("env"))
-        content = wrapWithNode(content, data.get("node"))
+        content = NodeWrapper.wrap(jenkins, content, data.get("node"))
         if (flag) content()
     }
 
@@ -35,11 +37,5 @@ class StepsStage extends Stage {
         for (e in envData.entrySet()) { envList.add(e.key + "=" + e.value) }
         def cur = content
         return { jenkins.withEnv(envList, cur) }
-    }
-
-    private Closure wrapWithNode(Closure content, Object nodeData) {
-        if (nodeData == null) return content
-        def cur = content
-        return { jenkins.node(nodeData.toString(), cur) }
     }
 }
