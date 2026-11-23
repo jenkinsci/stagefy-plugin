@@ -19,7 +19,8 @@ Notable changes to this project. Versions are published through the CD workflow;
 - Step-style call `stagefy file: ..., stage: ...`, usable in declarative `steps {}` without `script {}`.
 - JSON Schema for the stage YAML at `schema/stagefy.schema.json`, with an *Editor validation* section in the README.
 
-- `examples/` now has eight runnable examples (basic, composition, reuse, templates, iterated, conditional, windows, advanced) with an index; replaces `examples/Jenkinsfile.demo` and the root `test-pipeline.yml`.
+- `examples/` now has nine runnable examples (basic, composition, reuse, templates, iterated, conditional, windows, advanced, agents) with an index; replaces `examples/Jenkinsfile.demo` and the root `test-pipeline.yml`.
+- README section *Agents and nodes* and example `09-agents` documenting `agent none` / `agent any`, per-stage `node` and stash/unstash.
 
 - `stash` step directive (`stash: name` or an options map) delegating to the pipeline `stash` step.
 - `unstash` step directive (`unstash: name`, exact stash name) delegating to the pipeline `unstash` step.

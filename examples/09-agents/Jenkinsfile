@@ -1,0 +1,16 @@
+// With `agent none` the pipeline has no workspace of its own, so stagefy must run inside a node:
+// it reads the YAML with readYaml. Each YAML stage can then pick its own node and hand files over with stash/unstash.
+pipeline {
+    agent none
+    stages {
+        stage('Pipeline') {
+            steps {
+                // Replace 'built-in' with a label of your own (static or cloud-provisioned) agent.
+                node('built-in') {
+                    checkout scm
+                    stagefy file: 'examples/09-agents/Jenkins.yml', stage: 'all'
+                }
+            }
+        }
+    }
+}

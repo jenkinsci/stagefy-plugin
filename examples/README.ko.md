@@ -14,5 +14,6 @@
 | [06-conditional](06-conditional) | `when`, `setEnvFromFile` |
 | [07-windows](07-windows) | `bat`, `powershell`, `pwsh` |
 | [08-advanced](08-advanced) | `script`, `evaluate` (샌드박스 밖에서 Groovy 실행, 신뢰할 수 있는 소스만) |
+| [09-agents](09-agents) | `agent none`, 스테이지별 `node`, `stash` / `unstash` |
 
 모든 스테이지 YAML은 [`schema/stagefy.schema.json`](../schema/stagefy.schema.json)을 따르며 에디터 검증용 `yaml-language-server` modeline을 포함합니다.

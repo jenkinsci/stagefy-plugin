@@ -86,6 +86,11 @@ class ExamplesTest {
     }
 
     @Test
+    void agents() throws Exception {
+        assertLog(run("09-agents"), "built on a build node");
+    }
+
+    @Test
     void advanced() throws Exception {
         WorkflowRun run = run("08-advanced");
         assertLog(run, "Hello from a Groovy script");
