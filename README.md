@@ -74,6 +74,7 @@ A stage is a top-level key in the YAML file. Its kind is decided by one of these
 | `script: path` | Load a Groovy file and call its `main()` |
 | `evaluate: expr` | Evaluate a Groovy expression |
 | `setEnvFromFile: file` | Read the `env:` map of a YAML file into the build environment |
+| `stash: name` or `stash: { name, includes, excludes, allowEmpty, useDefaultExcludes }` | Stash files with the pipeline `stash` step (`name` is required) |
 | `use: Stage from file.yml` | Run a stage defined in another file; add `makeStage: false` to skip the wrapping `stage(...)` |
 | `template: name` | Expand a template, passing arguments as sibling keys |
 | `iterated:` | Expand a template once per item (see below) |
@@ -142,7 +143,7 @@ The schema checks structure only; Groovy in `when`, `evaluate` and `script` and 
 |---------|-------|
 | `Stage 'X' not found in 'file'` | The stage name is not a top-level key of the YAML file, or the file is not in the workspace (checkout first). |
 | `Stage 'X' has no 'stages', 'parallels', or 'steps' key` | The stage defines none of the three body keys. |
-| `Unknown step directive 'x' in stage 'X'` | A step uses a key other than `sh`, `bat`, `powershell`, `pwsh`, `script`, `setEnvFromFile`, `evaluate`, `use`, `template`, `iterated`. |
+| `Unknown step directive 'x' in stage 'X'` | A step uses a key other than `sh`, `bat`, `powershell`, `pwsh`, `script`, `setEnvFromFile`, `stash`, `evaluate`, `use`, `template`, `iterated`. |
 | `Template 'T' requires argument 'a' ...` | A `template` step or `iterated` item does not supply every declared argument. |
 | `Circular Loop Execution ...` | Stages reference each other in a cycle. |
 | `Template stage 'T' cannot be executed directly` | Templates can only be used through `template` or `iterated`. |

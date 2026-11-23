@@ -359,6 +359,26 @@ class StagefyDslTest {
     }
 
     @Test
+    void stashStepStashesMatchingFiles() throws Exception {
+        String yaml = "build:\n  steps:\n    - sh: \"echo hi > out.txt\"\n"
+                + "    - stash:\n        name: art\n        includes: out.txt\n";
+        WorkflowRun run = run(yaml, "build");
+        j.assertBuildStatusSuccess(run);
+        assertLog(run, "Stashed 1 file(s)");
+    }
+
+    @Test
+    void stashStepRejectsMissingNameAndUnknownKeys() throws Exception {
+        WorkflowRun noName = run("build:\n  steps:\n    - stash:\n        includes: '*'\n", "build");
+        j.assertBuildStatus(Result.FAILURE, noName);
+        assertLog(noName, "stash requires 'name'");
+
+        WorkflowRun badKey = run("build:\n  steps:\n    - stash:\n        name: a\n        bogus: 1\n", "build");
+        j.assertBuildStatus(Result.FAILURE, badKey);
+        assertLog(badKey, "Unknown stash option 'bogus'");
+    }
+
+    @Test
     void setenvWithoutEnvKeyIsNoop() throws Exception {
         WorkflowJob job = j.createProject(WorkflowJob.class);
         job.setDefinition(new CpsFlowDefinition(

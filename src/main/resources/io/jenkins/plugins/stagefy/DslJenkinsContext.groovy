@@ -30,6 +30,10 @@ class DslJenkinsContext implements Serializable {
         script.pwsh(cmd)
     }
 
+    def stash(Map args) {
+        script.stash(args)
+    }
+
     def stage(String name, Closure body) {
         script.stage(name, body)
     }
