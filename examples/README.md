@@ -14,5 +14,6 @@ Each folder is a self-contained example: a `Jenkinsfile` and the YAML it runs. T
 | [06-conditional](06-conditional) | `when`, `setEnvFromFile` |
 | [07-windows](07-windows) | `bat`, `powershell`, `pwsh` |
 | [08-advanced](08-advanced) | `script`, `evaluate` (runs Groovy outside the sandbox, trusted sources only) |
+| [09-agents](09-agents) | `agent none`, per-stage `node`, `stash` / `unstash` |
 
 All stage YAML files follow [`schema/stagefy.schema.json`](../schema/stagefy.schema.json) and carry the `yaml-language-server` modeline for editor validation.

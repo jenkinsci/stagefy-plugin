@@ -398,6 +398,28 @@ class StagefyDslTest {
     }
 
     @Test
+    void stashMovesFilesBetweenStagesOnSeparateNodes() throws Exception {
+        String yaml = "all:\n  stages:\n    - build\n    - deploy\n"
+                + "build:\n  node: built-in\n  steps:\n    - sh: \"echo artifact-7 > out.txt\"\n"
+                + "    - stash: { name: art, includes: out.txt }\n"
+                + "deploy:\n  node: built-in\n  steps:\n    - unstash: art\n    - sh: \"cat out.txt\"\n";
+        WorkflowRun run = run(yaml, "all");
+        j.assertBuildStatusSuccess(run);
+        assertLog(run, "artifact-7");
+    }
+
+    @Test
+    void runOutsideNodeFailsBecauseYamlCannotBeRead() throws Exception {
+        WorkflowJob job = j.createProject(WorkflowJob.class);
+        job.setDefinition(new CpsFlowDefinition(
+                "node { writeFile file: 'Jenkins.yml', text: 'build:\\n  steps:\\n    - sh: \"true\"\\n' }\n"
+                        + "stagefy.run('Jenkins.yml', 'build')\n",
+                true));
+        WorkflowRun run = j.assertBuildStatus(Result.FAILURE, job.scheduleBuild2(0).get());
+        assertLog(run, "Required context class hudson.FilePath is missing");
+    }
+
+    @Test
     void setenvWithoutEnvKeyIsNoop() throws Exception {
         WorkflowJob job = j.createProject(WorkflowJob.class);
         job.setDefinition(new CpsFlowDefinition(

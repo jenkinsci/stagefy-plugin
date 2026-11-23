@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/jenkinsci/stagefy-plugin/main/schema/stagefy.schema.json
+
+all:
+  stages:
+    - build
+    - deploy
+
+# `node` runs the stage on a separate executor with a fresh workspace, so files must travel via stash/unstash.
+# Replace `built-in` with the label of your own agent.
+build:
+  node: built-in
+  steps:
+    - sh: "echo 'built on a build node' > artifact.txt"
+    - stash: { name: artifact, includes: artifact.txt }
+
+deploy:
+  node: built-in
+  steps:
+    - unstash: artifact
+    - sh: "cat artifact.txt"

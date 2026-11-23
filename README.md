@@ -115,6 +115,15 @@ release:
 
 Arguments are referenced as `{name}` inside template steps. `over` may be a list of scalars, a list of maps (each key becomes an argument; an optional `_name` key names the generated stage) or `env.VAR_NAME` holding a comma-separated list. Each item produces a stage named `<template>_<item>`. Templates may only contain steps; they cannot contain `template` or `iterated` themselves.
 
+### Agents and nodes
+
+`stagefy.run` reads the YAML with `readYaml`, so it must be called inside a node, even with `agent none` (otherwise the build fails with `Required context class hudson.FilePath is missing`). See [`examples/09-agents`](examples/09-agents).
+
+- **`agent any` / `agent { label ... }`:** a stage's `node` allocates a *second* executor with a fresh workspace; files of the pipeline agent are not shared. Move files between nodes with `stash` / `unstash`.
+- **`agent none`:** wrap the call in `node('label') { checkout scm; stagefy ... }`, then give stages their own `node` as above.
+- **Children of a `stages` stage with `node`** share one executor and workspace; a child's own `node` nests inside it.
+- **Cloud agents** work when the cloud plugin provisions them for a label (`node: my-cloud-label`). Pod or container specs (for example Kubernetes `podTemplate`) are not supported yet.
+
 ## Editor validation
 
 A JSON Schema for the stage YAML is provided at [`schema/stagefy.schema.json`](schema/stagefy.schema.json) (draft-07). It gives completion and flags unknown keys in editors that use the YAML language server.

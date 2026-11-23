@@ -159,6 +159,15 @@ release:
 
 인자는 템플릿 스텝 안에서 `{name}`으로 참조한다. `over`는 스칼라 목록, 맵 목록(각 키가 인자가 되며, 선택적 `_name` 키로 생성되는 스테이지 이름을 지정), 또는 쉼표로 구분된 목록을 담은 `env.VAR_NAME`일 수 있다. 각 항목은 `<template>_<item>` 이름의 스테이지를 만든다. 템플릿에는 스텝만 포함할 수 있으며 `template`이나 `iterated`를 다시 포함할 수 없다.
 
+### Agents and nodes
+
+`stagefy.run`은 `readYaml`로 YAML을 읽으므로 `agent none`이어도 반드시 node 안에서 호출해야 한다 (아니면 `Required context class hudson.FilePath is missing`으로 빌드가 실패한다). [`examples/09-agents`](examples/09-agents)를 참고한다.
+
+- **`agent any` / `agent { label ... }`:** 스테이지의 `node`는 새 workspace를 가진 *두 번째* executor를 할당한다. 파이프라인 에이전트의 파일은 공유되지 않으므로 `stash` / `unstash`로 옮긴다.
+- **`agent none`:** 호출을 `node('label') { checkout scm; stagefy ... }`로 감싸고, 위처럼 스테이지에 각자 `node`를 지정한다.
+- **`node`가 있는 `stages` 스테이지의 자식**은 하나의 executor와 workspace를 공유하며, 자식의 `node`는 그 안에 중첩된다.
+- **클라우드 에이전트**는 클라우드 플러그인이 레이블에 대해 프로비저닝하는 경우 동작한다 (`node: my-cloud-label`). Pod/컨테이너 스펙(예: Kubernetes `podTemplate`)은 아직 지원하지 않는다.
+
 ## Troubleshooting
 
 | 메시지 | 원인 |
